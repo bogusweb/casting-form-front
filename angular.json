@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "front-src": {
+    "cf-front": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/front-src",
+            "outputPath": "dist/cf-front",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -57,18 +57,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "front-src:build"
+            "browserTarget": "cf-front:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "front-src:build:production"
+              "browserTarget": "cf-front:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "front-src:build"
+            "browserTarget": "cf-front:build"
           }
         },
         "test": {
@@ -105,7 +105,7 @@
         }
       }
     },
-    "front-src-e2e": {
+    "cf-front-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -113,7 +113,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "front-src:serve"
+            "devServerTarget": "cf-front:serve"
           }
         },
         "lint": {
@@ -128,5 +128,5 @@
       }
     }
   },
-  "defaultProject": "front-src"
+  "defaultProject": "cf-front"
 }
