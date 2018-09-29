@@ -1,0 +1,152 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span><strong>Casting form</strong></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <mat-card>
+
+    <mat-vertical-stepper [linear]="isLinear" #stepper>
+
+      <mat-step [stepControl]="castingCategoryFormGroup">
+        <form [formGroup]="castingCategoryFormGroup">
+          <ng-template matStepLabel>Choose avaible casting</ng-template>
+
+          <mat-form-field [style.width]="'100%'">
+            <mat-select formControlName="castingCategory" placeholder="Casting title">
+              <mat-option *ngFor="let category of castingCategorie$ | async" [value]="category.id">
+                {{ category.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <button mat-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="basicDataFormGroup">
+        <form [formGroup]="basicDataFormGroup">
+          <ng-template matStepLabel>Basic data</ng-template>
+
+          <div class="form-columns">
+            <mat-form-field>
+              <input matInput placeholder="Name" formControlName="name" value="">
+
+              <mat-error *ngIf="basicDataFormGroup.get('name').hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Surname" formControlName="surname" value="">
+
+              <mat-error *ngIf="basicDataFormGroup.get('surname').hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field [style.width]="'100%'">
+              <mat-select formControlName="sex" placeholder="Choose gender">
+                <mat-option value="Men">
+                  Men
+                </mat-option>
+                <mat-option value="Women">
+                  Women
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="basicDataFormGroup.get('sex').hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Phone" formControlName="phone" value="">
+
+              <mat-error *ngIf="basicDataFormGroup.get('email').hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Email (eg. xyz@gmail.com)" formControlName="email" value="">
+
+              <mat-error *ngIf="basicDataFormGroup.get('email').hasError('email') && !basicDataFormGroup.get('email').hasError('required')">
+                Please enter a valid email address
+              </mat-error>
+              <mat-error *ngIf="basicDataFormGroup.get('email').hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input formControlName="birthDate" matInput [matDatepicker]="picker" placeholder="Birthdate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+
+              <mat-error *ngIf="basicDataFormGroup.get('birthDate').hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Place of residence" formControlName="placeOfResidence" value="">
+
+              <mat-error *ngIf="basicDataFormGroup.get('placeOfResidence').hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Nationality" formControlName="nationality" value="">
+
+              <mat-error *ngIf="basicDataFormGroup.get('nationality').hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Photos</ng-template>
+
+        <label for="singleFile">Upload file</label>
+        <input id="singleFile" type="file" [fileUploadInputFor]= "fileUploadQueue"/>
+        <br>
+
+        <mat-file-upload-queue #fileUploadQueue
+                               [fileAlias]="'file'"
+                               [httpUrl]="'http://localhost:8000/api/media_objects'">
+
+          <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
+        </mat-file-upload-queue>
+
+      </mat-step>
+
+
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        You are now done.
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </mat-card>
+</div>
+
+<pre>
+{{ castingCategoryFormGroup.value | json }}
+<hr />
+{{ basicDataFormGroup.value | json }}
+  </pre>

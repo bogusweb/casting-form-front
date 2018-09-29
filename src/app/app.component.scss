@@ -1,0 +1,19 @@
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.form-columns {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 25px;
+  margin-bottom: 25px;
+
+  mat-form-field {
+    width: 49%;
+    flex-basis: 49%;
+  }
+}
