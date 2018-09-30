@@ -18,7 +18,7 @@ export class AppService {
   ) { }
 
   getCastingCategories(): Observable<CastingCategory[]> {
-    return this.http.get('http://localhost:8000/api/casting_categories').pipe(
+    return this.http.get('https://young-plateau-55712.herokuapp.com/api/casting_categories').pipe(
       map( (res) => {
         return res['hydra:member'].map( category => {
           return {

@@ -1,12 +1,13 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="fixed-header">
   <mat-toolbar-row>
     <span><strong>Casting form</strong></span>
+    <span class="example-spacer"></span>
+    <button matBadge="{{ debugger }}" matBadgeColor="warn" mat-raised-button color="pink" (click)="toggleDebugger()"><mat-icon>bug_report</mat-icon> Debugger</button>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="container">
   <mat-card>
-
     <mat-vertical-stepper [linear]="isLinear" #stepper>
 
       <mat-step [stepControl]="castingCategoryFormGroup">
@@ -22,7 +23,7 @@
           </mat-form-field>
 
           <div>
-            <button mat-button color="primary" matStepperNext>Next</button>
+            <button mat-stroked-button color="primary" matStepperNext>Next</button>
           </div>
         </form>
       </mat-step>
@@ -107,11 +108,19 @@
                 This field is <strong>required</strong>
               </mat-error>
             </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Portfolio link" formControlName="portfolioLink" value="">
+
+              <mat-error *ngIf="basicDataFormGroup.get('portfolioLink').hasError('pattern')">
+                Type valid url
+              </mat-error>
+            </mat-form-field>
           </div>
 
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button color="primary" matStepperNext>Next</button>
+          <div class="buttons">
+            <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-stroked-button color="primary" matStepperNext>Next</button>
           </div>
         </form>
       </mat-step>
@@ -125,28 +134,395 @@
 
         <mat-file-upload-queue #fileUploadQueue
                                [fileAlias]="'file'"
-                               [httpUrl]="'http://localhost:8000/api/media_objects'">
+                               [httpUrl]="'https://young-plateau-55712.herokuapp.com/api/media_objects'">
 
           <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
         </mat-file-upload-queue>
 
+        <div class="buttons">
+          <button mat-stroked-button matStepperPrevious>Back</button>
+          <button mat-stroked-button color="primary" matStepperNext>Next</button>
+        </div>
+
       </mat-step>
 
+      <mat-step>
+        <form [formGroup]="additionalDataFormGroup">
+          <ng-template matStepLabel>Additional data</ng-template>
+
+          <mat-accordion>
+
+            <mat-expansion-panel [expanded]="additionalDataStep === 0" (opened)="setStep(0)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Dimensionals</mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="form-columns">
+                <mat-form-field>
+
+                  <input matInput placeholder="The size of the upper part of the garment [cm]" formControlName="upSize" value="">
+
+                  <mat-error *ngIf="additionalDataFormGroup.get('upSize').hasError('pattern')">
+                    Only numbers
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="The size of the lower part of the garment [cm]" formControlName="downSize" value="">
+
+                  <mat-error *ngIf="additionalDataFormGroup.get('downSize').hasError('pattern')">
+                    Only numbers
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput placeholder="The size of the shoe [cm]" formControlName="shoeSize" value="">
+
+                  <mat-error *ngIf="additionalDataFormGroup.get('shoeSize').hasError('pattern')">
+                    Only numbers
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Breast size [cm]" formControlName="breastSize" value="">
+
+                  <mat-error *ngIf="additionalDataFormGroup.get('breastSize').hasError('pattern')">
+                    Only numbers
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput placeholder="Size of the hips [cm]" formControlName="hipsSize" value="">
+
+                  <mat-error *ngIf="additionalDataFormGroup.get('hipsSize').hasError('pattern')">
+                    Only numbers
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Waist size [cm]" formControlName="waistSize" value="">
+
+                  <mat-error *ngIf="additionalDataFormGroup.get('waistSize').hasError('pattern')">
+                    Only numbers
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <mat-action-row>
+                <button mat-stroked-button color="warn" matStepperPrevious>Previous</button>
+                <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="additionalDataStep === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Body
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="form-columns">
+
+                <mat-form-field>
+                  <mat-select formControlName="beautyBody" placeholder="Beauty">
+                    <mat-option value="Spring">Spring</mat-option>
+                    <mat-option value="Summer">Summer</mat-option>
+                    <mat-option value="Autumn">Autumn</mat-option>
+                    <mat-option value="Winter">Winter</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="figureBody" placeholder="Figure">
+                    <mat-option value="Hourglass">Hourglass</mat-option>
+                    <mat-option value="Pear">Pear</mat-option>
+                    <mat-option value="Apple">Apple</mat-option>
+                    <mat-option value="Rectangle">Rectangle</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="physiqueBody" placeholder="Physique">
+                    <mat-option value="Muscular">Muscular</mat-option>
+                    <mat-option value="Skinny">Skinny</mat-option>
+                    <mat-option value="Degreased">Degreased</mat-option>
+                    <mat-option value="Average">Average</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="breastChestBody" placeholder="Breast / Chest">
+                    <mat-option value="Ringtones">Ringtones</mat-option>
+                    <mat-option value="Asymmetric">Asymmetric</mat-option>
+                    <mat-option value="Small">Small</mat-option>
+                    <mat-option value="Big">Big</mat-option>
+                    <mat-option value="Wide">Wide</mat-option>
+                    <mat-option value="Muscular">Muscular</mat-option>
+                    <mat-option value="Ordinary">Ordinary</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="legsBody" placeholder="Legs">
+                    <mat-option value="Long">Long</mat-option>
+                    <mat-option value="Short">Short</mat-option>
+                    <mat-option value="Muscular">Muscular</mat-option>
+                    <mat-option value="Slender">Slender</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="handsBody" placeholder="Hands">
+                    <mat-option value="Wide">Wide</mat-option>
+                    <mat-option value="Flat">Flat</mat-option>
+                    <mat-option value="Narrow">Narrow</mat-option>
+                    <mat-option value="Well cared for">Well cared for</mat-option>
+                    <mat-option value="Small">Small</mat-option>
+                    <mat-option value="Big">Big</mat-option>
+                    <mat-option value="Straight fingers">Straight fingers</mat-option>
+                    <mat-option value="Fingers curves">Fingers curves</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button mat-stroked-button color="warn" (click)="prevStep()">Previous</button>
+                <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="additionalDataStep === 2" (opened)="setStep(2)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Face
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="form-columns">
+
+                <mat-form-field>
+                  <mat-select formControlName="earsFace" placeholder="Ears">
+                    <mat-option value="Big">Big</mat-option>
+                    <mat-option value="Average">Average</mat-option>
+                    <mat-option value="Small">Small</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="eyesFace" placeholder="Eyes">
+                    <mat-option value="Small">Small</mat-option>
+                    <mat-option value="Big">Big</mat-option>
+                    <mat-option value="Dished">Dished</mat-option>
+                    <mat-option value="Deeply embedded">Deeply embedded</mat-option>
+                    <mat-option value="Triangular">Triangular</mat-option>
+                    <mat-option value="Eyes of a phoenix">Eyes of a phoenix</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="noseFace" placeholder="Physique">
+                    <mat-option value="Plain">Plain</mat-option>
+                    <mat-option value="Flat">Flat</mat-option>
+                    <mat-option value="Upturned">Upturned</mat-option>
+                    <mat-option value="Aquiline">Aquiline</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="lipsTeethFace" placeholder="Lips and teeth">
+                    <mat-option value="Full">Full</mat-option>
+                    <mat-option value="Wide">Wide</mat-option>
+                    <mat-option value="Thin">Thin</mat-option>
+                    <mat-option value="Heart-shaped">Heart-shaped</mat-option>
+                    <mat-option value="Horseshoe-shaped">Horseshoe-shaped</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="eyeColorFace" placeholder="Eye color">
+                    <mat-option value="Brown">Brown</mat-option>
+                    <mat-option value="Hazel">Hazel</mat-option>
+                    <mat-option value="Green">Green</mat-option>
+                    <mat-option value="Grey">Grey</mat-option>
+                    <mat-option value="Blue">Blue</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput placeholder="Characteristics" formControlName="characteristicsFace" value="">
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button mat-stroked-button color="warn" (click)="prevStep()">Previous</button>
+                <button mat-stroked-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="additionalDataStep === 3" (opened)="setStep(3)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Hair
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="form-columns">
+
+                <mat-form-field>
+                  <mat-select formControlName="colorHair" placeholder="Color">
+                    <mat-option value="Blond">Blond</mat-option>
+                    <mat-option value="Red haired">Red haired</mat-option>
+                    <mat-option value="Brown haired">Brown haired</mat-option>
+                    <mat-option value="Black">Black</mat-option>
+                    <mat-option value="Gray">Gray</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="lengthHair" placeholder="Length">
+                    <mat-option value="Short">Short</mat-option>
+                    <mat-option value="To the shoulders">To the shoulders</mat-option>
+                    <mat-option value="Long">Long</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="qualityHair" placeholder="Quality">
+                    <mat-option value="Healthy">Healthy</mat-option>
+                    <mat-option value="Rare">Rare</mat-option>
+                    <mat-option value="Dense">Dense</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="typeHair" placeholder="Type">
+                    <mat-option value="Normal">Normal</mat-option>
+                    <mat-option value="Dry">Dry</mat-option>
+                    <mat-option value="Destroyed">Destroyed</mat-option>
+                    <mat-option value="Greasy">Greasy</mat-option>
+                    <mat-option value="Curly">Curly</mat-option>
+                    <mat-option value="Simple">Simple</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select formControlName="hueHair" placeholder="Hue">
+                    <mat-option value="Bright">Bright</mat-option>
+                    <mat-option value="Hazel">Dark</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput placeholder="Other" formControlName="otherHair" value="">
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button mat-stroked-button color="warn" (click)="prevStep()">Previous</button>
+                <button mat-stroked-button color="primary" matStepperNext>Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </form>
+      </mat-step>
 
       <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        You are now done.
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
+        <form [formGroup]="skillsFormGroup">
+          <ng-template matStepLabel>Skills</ng-template>
+
+          <div class="form-columns" formArrayName="skills">
+
+            <ng-container *ngFor="let skill of skillsFormGroup.get('skills').controls; let i = index;">
+              <ng-container [formGroupName]="i">
+                <mat-form-field>
+                  <input matInput placeholder="Enter an additional skill" formControlName="skill" value="">
+
+                  <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeSkill(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </mat-form-field>
+              </ng-container>
+            </ng-container>
+          </div>
+
+          <div class="add-skill-btn">
+            <button mat-raised-button color="primary" (click)="addNewSkill()"><mat-icon>note_add</mat-icon> Add new skill</button>
+          </div>
+
+          <div class="buttons">
+            <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-stroked-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="descriptionsFormGroup">
+        <form [formGroup]="descriptionsFormGroup">
+          <ng-template matStepLabel>Descriptions</ng-template>
+
+          <div class="form-columns">
+
+            <mat-form-field>
+              <textarea matInput #short formControlName="short" rows="6" placeholder="Short description"></textarea>
+              <mat-hint align="end">{{short.value.length}} / 1000</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+              <textarea matInput #additional formControlName="additional" rows="6" placeholder="Additional description"></textarea>
+              <mat-hint align="end">{{additional.value.length}} / 1000</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="buttons">
+            <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-stroked-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Last step</ng-template>
+        <form [formGroup]="approvalFormGroup">
+
+          <div class="checkboxes">
+            <mat-checkbox formControlName="clause" color="primary" [(ngModel)]="approvalClause">
+              I have read and accept the INFORMATION CLAUSE.
+            </mat-checkbox><br />
+            <mat-checkbox formControlName="processing" color="primary" [(ngModel)]="approvalProcessing">
+              I consent to the processing of data. Look around you. You'll see two councilmen, a union official, couple off-duty cops and a judge. I wouldn't have a second's hesitation of blowing your head off in front of them. Now, that's power you can't buy. That's the power of fear.
+            </mat-checkbox>
+          </div>
+        </form>
+
+        <div class="send-button">
+          <button
+              mat-raised-button
+              color="primary"
+              [disabled]="!approvalClause && !approvalProcessing">
+            <mat-icon>send</mat-icon> Apply</button>
+        </div>
+
+        <div class="buttons">
+          <button mat-stroked-button matStepperPrevious>Back</button>
+          <button mat-stroked-button (click)="stepper.reset()">Reset</button>
         </div>
       </mat-step>
     </mat-vertical-stepper>
   </mat-card>
-</div>
 
-<pre>
-{{ castingCategoryFormGroup.value | json }}
-<hr />
-{{ basicDataFormGroup.value | json }}
-  </pre>
+  <div class="debugger" *ngIf="debugger">
+    <pre>
+      {{ castingCategoryFormGroup.value | json }}
+      <hr />
+      {{ basicDataFormGroup.value | json }}
+      <hr />
+      {{ additionalDataFormGroup.value | json }}
+      <hr />
+      {{ skillsFormGroup.value | json }}
+      <hr />
+      {{ descriptionsFormGroup.value | json }}
+      <hr />
+      {{ approvalFormGroup.value | json }}
+    </pre>
+  </div>
+</div>
