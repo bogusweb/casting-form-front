@@ -2,7 +2,10 @@
   <mat-toolbar-row>
     <span><strong>Casting form</strong></span>
     <span class="example-spacer"></span>
-    <button mat-raised-button color="pink" (click)="toggleDebugger()"><mat-icon>bug_report</mat-icon> Debugger - {{ debugger }}</button>
+    <button mat-raised-button (click)="setTestValues()" style="margin-right: 15px;">Fill test values</button>
+    <button mat-raised-button (click)="resetForm()" style="margin-right: 15px;">Reset form</button>
+    <button mat-raised-button (click)="toggleLinearStepper()" style="margin-right: 15px;">Linear stepper</button>
+    <button mat-raised-button (click)="toggleDebugger()">Debugger - {{ debugger }}</button>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -68,7 +71,7 @@
             <mat-form-field>
               <input matInput placeholder="Phone" formControlName="phone" value="">
 
-              <mat-error *ngIf="basicDataFormGroup.get('email').hasError('required')">
+              <mat-error *ngIf="basicDataFormGroup.get('phone').hasError('required')">
                 This field is <strong>required</strong>
               </mat-error>
             </mat-form-field>
@@ -158,49 +161,49 @@
                 <mat-panel-title>Dimensionals</mat-panel-title>
               </mat-expansion-panel-header>
 
-              <div class="form-columns">
+              <div class="form-columns" formGroupName="size">
                 <mat-form-field>
 
-                  <input matInput placeholder="The size of the upper part of the garment [cm]" formControlName="upSize" value="">
+                  <input matInput placeholder="The size of the upper part of the garment [cm]" formControlName="up" value="">
 
-                  <mat-error *ngIf="additionalDataFormGroup.get('upSize').hasError('pattern')">
+                  <mat-error *ngIf="additionalDataFormGroup.get('size').get('up').hasError('pattern')">
                     Only numbers
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                  <input matInput placeholder="The size of the lower part of the garment [cm]" formControlName="downSize" value="">
+                  <input matInput placeholder="The size of the lower part of the garment [cm]" formControlName="down" value="">
 
-                  <mat-error *ngIf="additionalDataFormGroup.get('downSize').hasError('pattern')">
-                    Only numbers
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field>
-                  <input matInput placeholder="The size of the shoe [cm]" formControlName="shoeSize" value="">
-
-                  <mat-error *ngIf="additionalDataFormGroup.get('shoeSize').hasError('pattern')">
-                    Only numbers
-                  </mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                  <input matInput placeholder="Breast size [cm]" formControlName="breastSize" value="">
-
-                  <mat-error *ngIf="additionalDataFormGroup.get('breastSize').hasError('pattern')">
+                  <mat-error *ngIf="additionalDataFormGroup.get('size').get('down').hasError('pattern')">
                     Only numbers
                   </mat-error>
                 </mat-form-field>
 
                 <mat-form-field>
-                  <input matInput placeholder="Size of the hips [cm]" formControlName="hipsSize" value="">
+                  <input matInput placeholder="The size of the shoe [cm]" formControlName="shoe" value="">
 
-                  <mat-error *ngIf="additionalDataFormGroup.get('hipsSize').hasError('pattern')">
+                  <mat-error *ngIf="additionalDataFormGroup.get('size').get('shoe').hasError('pattern')">
                     Only numbers
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                  <input matInput placeholder="Waist size [cm]" formControlName="waistSize" value="">
+                  <input matInput placeholder="Breast size [cm]" formControlName="breast" value="">
 
-                  <mat-error *ngIf="additionalDataFormGroup.get('waistSize').hasError('pattern')">
+                  <mat-error *ngIf="additionalDataFormGroup.get('size').get('breast').hasError('pattern')">
+                    Only numbers
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput placeholder="Size of the hips [cm]" formControlName="hips" value="">
+
+                  <mat-error *ngIf="additionalDataFormGroup.get('size').get('hips').hasError('pattern')">
+                    Only numbers
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Waist size [cm]" formControlName="waist" value="">
+
+                  <mat-error *ngIf="additionalDataFormGroup.get('size').get('waist').hasError('pattern')">
                     Only numbers
                   </mat-error>
                 </mat-form-field>
@@ -219,10 +222,10 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
-              <div class="form-columns">
+              <div class="form-columns" formGroupName="body">
 
                 <mat-form-field>
-                  <mat-select formControlName="beautyBody" placeholder="Beauty">
+                  <mat-select formControlName="beauty" placeholder="Beauty">
                     <mat-option value="Spring">Spring</mat-option>
                     <mat-option value="Summer">Summer</mat-option>
                     <mat-option value="Autumn">Autumn</mat-option>
@@ -231,7 +234,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="figureBody" placeholder="Figure">
+                  <mat-select formControlName="figure" placeholder="Figure">
                     <mat-option value="Hourglass">Hourglass</mat-option>
                     <mat-option value="Pear">Pear</mat-option>
                     <mat-option value="Apple">Apple</mat-option>
@@ -240,7 +243,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="physiqueBody" placeholder="Physique">
+                  <mat-select formControlName="physique" placeholder="Physique">
                     <mat-option value="Muscular">Muscular</mat-option>
                     <mat-option value="Skinny">Skinny</mat-option>
                     <mat-option value="Degreased">Degreased</mat-option>
@@ -249,7 +252,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="breastChestBody" placeholder="Breast / Chest">
+                  <mat-select formControlName="breastChest" placeholder="Breast / Chest">
                     <mat-option value="Ringtones">Ringtones</mat-option>
                     <mat-option value="Asymmetric">Asymmetric</mat-option>
                     <mat-option value="Small">Small</mat-option>
@@ -261,7 +264,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="legsBody" placeholder="Legs">
+                  <mat-select formControlName="legs" placeholder="Legs">
                     <mat-option value="Long">Long</mat-option>
                     <mat-option value="Short">Short</mat-option>
                     <mat-option value="Muscular">Muscular</mat-option>
@@ -270,7 +273,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="handsBody" placeholder="Hands">
+                  <mat-select formControlName="hands" placeholder="Hands">
                     <mat-option value="Wide">Wide</mat-option>
                     <mat-option value="Flat">Flat</mat-option>
                     <mat-option value="Narrow">Narrow</mat-option>
@@ -297,10 +300,10 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
-              <div class="form-columns">
+              <div class="form-columns" formGroupName="face">
 
                 <mat-form-field>
-                  <mat-select formControlName="earsFace" placeholder="Ears">
+                  <mat-select formControlName="ears" placeholder="Ears">
                     <mat-option value="Big">Big</mat-option>
                     <mat-option value="Average">Average</mat-option>
                     <mat-option value="Small">Small</mat-option>
@@ -308,7 +311,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="eyesFace" placeholder="Eyes">
+                  <mat-select formControlName="eyes" placeholder="Eyes">
                     <mat-option value="Small">Small</mat-option>
                     <mat-option value="Big">Big</mat-option>
                     <mat-option value="Dished">Dished</mat-option>
@@ -319,7 +322,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="noseFace" placeholder="Physique">
+                  <mat-select formControlName="nose" placeholder="Physique">
                     <mat-option value="Plain">Plain</mat-option>
                     <mat-option value="Flat">Flat</mat-option>
                     <mat-option value="Upturned">Upturned</mat-option>
@@ -328,7 +331,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="lipsTeethFace" placeholder="Lips and teeth">
+                  <mat-select formControlName="lipsTeeth" placeholder="Lips and teeth">
                     <mat-option value="Full">Full</mat-option>
                     <mat-option value="Wide">Wide</mat-option>
                     <mat-option value="Thin">Thin</mat-option>
@@ -338,7 +341,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="eyeColorFace" placeholder="Eye color">
+                  <mat-select formControlName="eyeColor" placeholder="Eye color">
                     <mat-option value="Brown">Brown</mat-option>
                     <mat-option value="Hazel">Hazel</mat-option>
                     <mat-option value="Green">Green</mat-option>
@@ -348,7 +351,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <input matInput placeholder="Characteristics" formControlName="characteristicsFace" value="">
+                  <input matInput placeholder="Characteristics" formControlName="characteristics" value="">
                 </mat-form-field>
 
               </div>
@@ -366,10 +369,10 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
-              <div class="form-columns">
+              <div class="form-columns" formArrayName="hair">
 
                 <mat-form-field>
-                  <mat-select formControlName="colorHair" placeholder="Color">
+                  <mat-select formControlName="color" placeholder="Color">
                     <mat-option value="Blond">Blond</mat-option>
                     <mat-option value="Red haired">Red haired</mat-option>
                     <mat-option value="Brown haired">Brown haired</mat-option>
@@ -379,7 +382,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="lengthHair" placeholder="Length">
+                  <mat-select formControlName="length" placeholder="Length">
                     <mat-option value="Short">Short</mat-option>
                     <mat-option value="To the shoulders">To the shoulders</mat-option>
                     <mat-option value="Long">Long</mat-option>
@@ -387,7 +390,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="qualityHair" placeholder="Quality">
+                  <mat-select formControlName="quality" placeholder="Quality">
                     <mat-option value="Healthy">Healthy</mat-option>
                     <mat-option value="Rare">Rare</mat-option>
                     <mat-option value="Dense">Dense</mat-option>
@@ -395,7 +398,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="typeHair" placeholder="Type">
+                  <mat-select formControlName="type" placeholder="Type">
                     <mat-option value="Normal">Normal</mat-option>
                     <mat-option value="Dry">Dry</mat-option>
                     <mat-option value="Destroyed">Destroyed</mat-option>
@@ -406,14 +409,14 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                  <mat-select formControlName="hueHair" placeholder="Hue">
+                  <mat-select formControlName="hue" placeholder="Hue">
                     <mat-option value="Bright">Bright</mat-option>
                     <mat-option value="Hazel">Dark</mat-option>
                   </mat-select>
                 </mat-form-field>
 
                 <mat-form-field>
-                  <input matInput placeholder="Other" formControlName="otherHair" value="">
+                  <input matInput placeholder="Other" formControlName="other" value="">
                 </mat-form-field>
 
               </div>
@@ -466,11 +469,19 @@
             <mat-form-field>
               <textarea matInput #short formControlName="short" rows="6" placeholder="Short description"></textarea>
               <mat-hint align="end">{{short.value.length}} / 1000</mat-hint>
+
+              <mat-error *ngIf="short.value.length > 1000">
+                The maximum length of the text is <strong>1000 characters</strong>
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field>
               <textarea matInput #additional formControlName="additional" rows="6" placeholder="Additional description"></textarea>
               <mat-hint align="end">{{additional.value.length}} / 1000</mat-hint>
+
+              <mat-error *ngIf="additional.value.length > 1000">
+                The maximum length of the text is <strong>1000 characters</strong>
+              </mat-error>
             </mat-form-field>
           </div>
 
@@ -486,26 +497,24 @@
         <form [formGroup]="approvalFormGroup">
 
           <div class="checkboxes">
-            <mat-checkbox formControlName="clause" color="primary" [(ngModel)]="approvalClause">
+            <mat-checkbox #clauseApproval formControlName="clause" color="primary">
               I have read and accept the INFORMATION CLAUSE.
-            </mat-checkbox><br />
-            <mat-checkbox formControlName="processing" color="primary" [(ngModel)]="approvalProcessing">
+            </mat-checkbox>
+            <mat-checkbox #processingApproval formControlName="processing" color="primary">
               I consent to the processing of data. Look around you. You'll see two councilmen, a union official, couple off-duty cops and a judge. I wouldn't have a second's hesitation of blowing your head off in front of them. Now, that's power you can't buy. That's the power of fear.
             </mat-checkbox>
           </div>
+
         </form>
 
-        <div class="send-button">
+        <div class="add-skill-btn">
           <button
-              mat-raised-button
-              color="primary"
-              [disabled]="!approvalClause && !approvalProcessing">
+            mat-raised-button
+            color="primary"
+            [disabled]="!approvalFormGroup.valid"
+            (click)="sendFormData()"
+          >
             <mat-icon>send</mat-icon> Apply</button>
-        </div>
-
-        <div class="buttons">
-          <button mat-stroked-button matStepperPrevious>Back</button>
-          <button mat-stroked-button (click)="stepper.reset()">Reset</button>
         </div>
       </mat-step>
     </mat-vertical-stepper>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {CastingCategory} from "./interfaces";
 import { environment } from '../environments/environment';
@@ -29,5 +29,9 @@ export class AppService {
         });
       })
     )
+  }
+
+  postCastingForm(data): Observable<any> {
+    return this.http.post(environment.apiUrl + 'casting_forms', data, httpOptions);
   }
 }

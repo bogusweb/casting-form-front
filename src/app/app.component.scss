@@ -32,9 +32,10 @@
     .debugger {
       width: 20%;
       flex-basis: 20%;
-      position: static;
+      position: sticky;
       top: 0;
       right: 0;
+      overflow: hidden;
     }
   }
 }
@@ -88,5 +89,12 @@ mat-action-row {
 
   button {
     width: 80%;
+  }
+}
+
+.checkboxes {
+  mat-checkbox {
+    margin: 15px 0;
+    display: block;
   }
 }
