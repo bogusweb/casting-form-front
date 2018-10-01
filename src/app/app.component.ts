@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {CastingCategory} from "./interfaces";
 import {tap} from "rxjs/operators";
 import {MatFileUploadQueue} from "angular-material-fileupload";
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import {MatFileUploadQueue} from "angular-material-fileupload";
 export class AppComponent implements OnInit {
   isLinear: boolean = false;
   debugger: boolean = false;
+  apiUrl: string = environment.apiUrl;
 
   castingCategoryFormGroup: FormGroup;
   basicDataFormGroup: FormGroup;

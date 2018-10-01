@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {CastingCategory} from "./interfaces";
+import { environment } from '../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,7 +19,7 @@ export class AppService {
   ) { }
 
   getCastingCategories(): Observable<CastingCategory[]> {
-    return this.http.get('https://young-plateau-55712.herokuapp.com/api/casting_categories').pipe(
+    return this.http.get(environment.apiUrl + 'casting_categories').pipe(
       map( (res) => {
         return res['hydra:member'].map( category => {
           return {
