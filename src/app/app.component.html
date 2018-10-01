@@ -2,9 +2,9 @@
   <mat-toolbar-row>
     <span><strong>Casting form</strong></span>
     <span class="example-spacer"></span>
-    <button mat-raised-button (click)="setTestValues()" style="margin-right: 15px;">Fill test values</button>
-    <button mat-raised-button (click)="resetForm()" style="margin-right: 15px;">Reset form</button>
-    <button mat-raised-button (click)="toggleLinearStepper()" style="margin-right: 15px;">Linear stepper</button>
+    <button *ngIf="debugger" mat-raised-button (click)="setTestValues()" style="margin-right: 15px;">Fill test values</button>
+    <button *ngIf="debugger" mat-raised-button (click)="resetForm()" style="margin-right: 15px;">Reset form</button>
+    <button *ngIf="debugger" mat-raised-button (click)="toggleLinearStepper()" style="margin-right: 15px;">Linear stepper</button>
     <button mat-raised-button (click)="toggleDebugger()">Debugger - {{ debugger }}</button>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -138,7 +138,7 @@
 
         <mat-file-upload-queue #fileUploadQueue
                                [fileAlias]="'file'"
-                               [httpUrl]="apiUrl + '/media_objects'">
+                               [httpUrl]="apiUrl + 'media_objects'">
 
           <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
         </mat-file-upload-queue>
